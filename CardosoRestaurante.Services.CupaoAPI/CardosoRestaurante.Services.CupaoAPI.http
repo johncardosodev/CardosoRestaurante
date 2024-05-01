@@ -1,0 +1,6 @@
+@CardosoRestaurante.Services.CupaoAPI_HostAddress = http://localhost:5049
+
+GET {{CardosoRestaurante.Services.CupaoAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

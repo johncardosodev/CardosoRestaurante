@@ -1,0 +1,69 @@
+﻿@model List<CupaoDto>
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1 class="text-white">Lista de cupões</h1>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<div class="row pb-3">
+			<div class="col-6">
+			</div>
+			<div class="col-6 text-end">
+				<a asp-action="CupaoCriar" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Criar novo cupão</a>
+
+			</div>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model[0].CupaoCodigo)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model[0].Desconto)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model[0].ValorMinimo)
+					</th>
+					<th>
+						Opções
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CupaoCodigo) 
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Desconto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorMinimo)
+                        </td>
+                        <td>
+							
+							<div class="w-75 btn-group" role="group">
+								<a asp-controller="Cupao" asp-action="CupaoEditar" asp-route-cupaoId="@item.CupaoId" class="btn btn-success mx-2">
+									<i class="bi bi-pencil">Modificar</i>
+								</a>
+								<a asp-controller="Cupao" asp-action="CupaoApagar" asp-route-cupaoId="@item.CupaoId" class="btn btn-danger mx-2">
+									<i class="bi bi-trash">Apagar</i>
+								</a>
+							</div>
+                        </td>
+						
+                    </tr>               }
+
+			</tbody>
+		</table>
+
+	</div>
+
+</div>

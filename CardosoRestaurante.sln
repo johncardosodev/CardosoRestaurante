@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{EBA43D0A-8DC9-4D62-ADFB-0577CC76DFF2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{C0026CB3-2DE0-41D0-90D1-6469EE747E0D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{75BF817E-3F5C-4B95-B3A5-03A07BF58B07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{179ACE96-B22B-46A1-8155-056AAE80B780}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{277B8BF5-94BD-4C9E-B89F-C91D6B03F49F}"
+	ProjectSection(SolutionItems) = preProject
+		Explicacao.md = Explicacao.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardosoRestaurante.Services.CupaoAPI", "CardosoRestaurante.Services.CupaoAPI\CardosoRestaurante.Services.CupaoAPI.csproj", "{E3416621-9E8E-4A1A-8ED5-7495F8FE4E7F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardosoRestaurante.Web", "CardosoRestaurante.Web\CardosoRestaurante.Web.csproj", "{E5FC2BF7-80C8-4EE9-9502-2E4534B23F79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardosoRestaurante.Services.AuthAPI", "CardosoRestaurante.Services.AuthAPI\CardosoRestaurante.Services.AuthAPI.csproj", "{062293EA-B68C-4C4B-A19A-2817600D03E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3416621-9E8E-4A1A-8ED5-7495F8FE4E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3416621-9E8E-4A1A-8ED5-7495F8FE4E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3416621-9E8E-4A1A-8ED5-7495F8FE4E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3416621-9E8E-4A1A-8ED5-7495F8FE4E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5FC2BF7-80C8-4EE9-9502-2E4534B23F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5FC2BF7-80C8-4EE9-9502-2E4534B23F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5FC2BF7-80C8-4EE9-9502-2E4534B23F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5FC2BF7-80C8-4EE9-9502-2E4534B23F79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{062293EA-B68C-4C4B-A19A-2817600D03E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{062293EA-B68C-4C4B-A19A-2817600D03E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{062293EA-B68C-4C4B-A19A-2817600D03E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{062293EA-B68C-4C4B-A19A-2817600D03E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3416621-9E8E-4A1A-8ED5-7495F8FE4E7F} = {179ACE96-B22B-46A1-8155-056AAE80B780}
+		{E5FC2BF7-80C8-4EE9-9502-2E4534B23F79} = {EBA43D0A-8DC9-4D62-ADFB-0577CC76DFF2}
+		{062293EA-B68C-4C4B-A19A-2817600D03E0} = {179ACE96-B22B-46A1-8155-056AAE80B780}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6CB45FF5-A95B-40E8-9EC9-46E82BB1134F}
+	EndGlobalSection
+EndGlobal

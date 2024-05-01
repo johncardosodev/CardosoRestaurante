@@ -1,0 +1,64 @@
+using AutoMapper;
+using CardosoRestaurante.Services.CupaoAPI;
+using CardosoRestaurante.Services.CupaoAPI.Data;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+//Servico de base de dados SQL Server
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); //Ligacao a base de dados SQL Server
+});
+
+//Configurar o mapeamento entre as classes Cupao e CupaoDto
+//Estas três linhas de código configuram e registram o AutoMapper no container de serviços da aplicação, permitindo que ele seja usado para realizar mapeamentos entre as classes Cupao e CupaoDto e outros tipos definidos na aplicação. Isso facilita a conversão de dados entre diferentes contextos e simplifica o código que lida com mapeamentos manuais.
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper(); //Configurar o mapeamento entre as classes Cupao e CupaoDto
+builder.Services.AddSingleton(mapper); //Registar o mapeamento no container de servicos
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //Registar o AutoMapper no container de servicos
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+UpdateMigracoes(); //Aplicar as migracoes pendentes ao iniciar o aplicativo
+
+app.Run();
+
+//############################################################################################################
+void UpdateMigracoes()
+
+/*O código selecionado é uma função chamada "UpdateMigracoes" que é responsável por aplicar as migrações pendentes em um banco de dados. Vamos analisar o código passo a passo:
+1.Primeiro, é criado um novo escopo usando a função "CreateScope" do serviço "app.Services". Esse escopo permite acessar o banco de dados e executar as migrações.
+2.	Em seguida, é obtido o serviço "AppDbContext" do escopo usando a função "GetRequiredService". Esse serviço representa o contexto do banco de dados que foi registrado no container de serviços.
+3.	Depois, é verificado se existem migrações pendentes para serem aplicadas. Isso é feito chamando a função "GetPendingMigrations" do objeto "Database" do contexto do banco de dados e verificando o número de migrações pendentes usando a função "Count()".
+4.	Se houver migrações pendentes, a função "Migrate" é chamada no objeto "Database" do contexto do banco de dados. Isso aplica as migrações pendentes e atualiza o esquema do banco de dados de acordo.
+Essa função é útil quando você está usando o Entity Framework Core para gerenciar as migrações do banco de dados. Ela garante que todas as migrações pendentes sejam aplicadas automaticamente quando o aplicativo é iniciado. Isso é especialmente útil durante o desenvolvimento, quando você está iterando no esquema do banco de dados e precisa aplicar as alterações no banco de dados local.*/
+
+{
+    using (var scope = app.Services.CreateScope()) //Criar um novo escopo que vai permitir aceder a base de dados e fazer as migracoes
+    {
+        var _db = scope.ServiceProvider.GetRequiredService<AppDbContext>(); //Obter o servico da base de dados que foi registado no container
+        if (_db.Database.GetPendingMigrations().Count() > 0) //Verificar se existem migracoes pendentes para serem aplicadas
+        {
+            _db.Database.Migrate(); //Aplicar as migracoes pendentes
+        }
+    }
+}

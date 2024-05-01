@@ -1,0 +1,58 @@
+﻿@model CupaoDto
+
+
+</style>
+<form asp-action="CupaoCriar">
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Criar Cupão</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-2">
+                <label asp-for="CupaoCodigo" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="CupaoCodigo" class="form-control" />
+                <span asp-validation-for="CupaoCodigo" class="text-danger"></span>
+
+            </div>
+            <div class="col-2">
+                <label asp-for="Desconto" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Desconto" class="form-control" />
+                <span asp-validation-for="Desconto" class="text-danger"></span>
+
+            </div>
+            <div class="col-2">
+                <label asp-for="ValorMinimo" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="ValorMinimo" class="form-control" />
+                <span asp-validation-for="ValorMinimo" class="text-danger"></span>
+
+            </div>
+
+            <div class="col-5 offset-2">
+
+                <a asp-action="CupaoIndex" class="btn-primary btn form-control ">Voltar</a>
+            </div>
+            <div class="col-5">
+                <input type="submit" value="Create" class="btn btn-success form-control" />
+
+            </div>
+
+        </div>
+
+        <div>
+        </div>
+    </div>
+</form>
+
+@*Valida;oes no lado do cliente. Assim, nao ]e preciso fazer post*@
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
