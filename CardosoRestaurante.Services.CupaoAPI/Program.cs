@@ -1,7 +1,10 @@
 using AutoMapper;
 using CardosoRestaurante.Services.CupaoAPI;
 using CardosoRestaurante.Services.CupaoAPI.Data;
+using CardosoRestaurante.Services.CupaoAPI.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +25,37 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //Regis
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.AddSecurityDefinition("Bearer", securityScheme: new OpenApiSecurityScheme
+    {
+        Name = "Authorization", //Nome do token JWT gerado pelo Bearer
+        Description = "Escreve 'Bearer Generated-JWT-Token'", //Descrição do token JWT gerado pelo Bearer
+        In = ParameterLocation.Header, //Localização do token JWT no cabeçalho
+        Type = SecuritySchemeType.ApiKey, //Tipo de esquema de segurança
+        Scheme = "Bearer" //Esquema de segurança
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = JwtBearerDefaults.AuthenticationScheme
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
+//###########################################################################################################Isto para poder usar authenticaçao nos controladores
+//Isto para ficar com melhor organização do código
+builder.AddAppAuthetication(); //Adicionar autenticacao ao servico de autenticacao pela classe que está no Extensions do projeto
+
+builder.Services.AddAuthorization(); //Adicionar autorizacao ao servico de autenticacao
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,7 +66,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthorization(); //Tem que ser antes de autorização para garantir que a autenticação seja feita antes de verificar as permissões
 app.UseAuthorization();
 
 app.MapControllers();

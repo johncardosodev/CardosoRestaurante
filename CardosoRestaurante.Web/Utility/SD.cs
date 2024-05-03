@@ -12,5 +12,9 @@
 
         public static string CupaoAPIBase { get; set; } //CupaoAPIBase: Essa propriedade do tipo string representa a URL base da API de cupons.
         public static string AuthAPIBase { get; set; } //AuthAPIBase: Essa propriedade do tipo string representa a URL base da API de autenticação.
+
+        public const string FuncaoAdmin = "Administrador";
+        public const string FuncaoUtilizador = "Utilizador";
+        public const string TokenCookie = "JWTToken"; //TokenCookie: Essa propriedade do tipo string representa o nome do cookie que armazena o token JWT.
     }
 }

@@ -1,6 +1,7 @@
 using CardosoRestaurante.Web.Service;
 using CardosoRestaurante.Web.Service.IService;
 using CardosoRestaurante.Web.Utility;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,10 +47,26 @@ Isso permite que você utilize as funcionalidades fornecidas pelo BaseService em 
 builder.Services.AddScoped<IBaseService, BaseService>(); // Adiciona o serviço BaseService ao contêiner de serviços da aplicação para enviar solicitações HTTP
 builder.Services.AddScoped<ICupaoService, CupaoService>(); // Adiciona o serviço CupaoService ao contêiner de serviços da aplicação para lidar com operações relacionadas a cupons de desconto
 
-//############################################################################################################ AuthenticationAPI ############################################################################################################
+//############################################################################################################ AuthenticationAPI ###############################################################################
 SD.AuthAPIBase = builder.Configuration["ServicesUrls:AuthAPI"]; // Define a URL base da API de autenticação a partir da configuração da aplicação
 builder.Services.AddHttpClient<IAuthService, AuthService>(); // Para fazer solicitações HTTP à API de autenticação
+builder.Services.AddScoped<ITokenProvider, TokenProvider>(); // Adiciona o serviço TokenProvider ao contêiner de serviços da aplicação para lidar com o token JWT
 builder.Services.AddScoped<IAuthService, AuthService>(); // Adiciona o serviço AuthService ao contêiner de serviços da aplicação para lidar com operações relacionadas à autenticação
+
+/*A linha de código selecionada está adicionando a autenticação baseada em cookies ao pipeline de solicitação HTTP da aplicação. Isso significa que, quando um usuário faz uma solicitação para a aplicação, o sistema verifica se o usuário está autenticado por meio de cookies.
+Ao chamar o método AddAuthentication e passar CookieAuthenticationDefaults.AuthenticationScheme como argumento, você está configurando a autenticação baseada em cookies como o esquema de autenticação padrão da aplicação. Isso significa que os cookies serão usados para autenticar os usuários.
+Em seguida, você pode usar o método AddCookie para configurar opções específicas para a autenticação baseada em cookies. No exemplo fornecido, as opções estão sendo configuradas da seguinte maneira:
+•	options.ExpireTimeSpan = TimeSpan.FromHours(10);: Define o tempo de expiração dos cookies de autenticação como 10 horas. Isso significa que, após 10 horas, o usuário precisará fazer login novamente.
+•	options.LoginPath = "/Auth/Login";: Define o caminho para a página de login da aplicação. Quando um usuário não autenticado tenta acessar uma página protegida, ele será redirecionado para essa página.
+•	options.AccessDeniedPath = "/Auth/AccessDenied";: Define o caminho para a página de acesso negado da aplicação. Quando um usuário autenticado tenta acessar uma página para a qual não tem permissão, ele será redirecionado para essa página.
+Essa configuração permite que a aplicação utilize a autenticação baseada em cookies para proteger rotas e recursos específicos, garantindo que apenas usuários autenticados tenham acesso a eles.*/
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) // Configura a autenticação baseada em cookies
+    .AddCookie(options =>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromHours(10);
+        options.LoginPath = "/Auth/Login";
+        options.AccessDeniedPath = "/Auth/AccessDenied";
+    });
 
 var app = builder.Build();
 
@@ -65,7 +82,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication(); //Tem que ser antes de autorização
 app.UseAuthorization();
 
 app.MapControllerRoute(

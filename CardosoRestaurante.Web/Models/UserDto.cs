@@ -1,4 +1,4 @@
-﻿namespace CardosoRestaurante.Web.Models.DTO
+﻿namespace CardosoRestaurante.Web.Models
 {
     public class UserDto
     {//Esta class vai conter todos atributos criticos para a autenticação de um utilizador

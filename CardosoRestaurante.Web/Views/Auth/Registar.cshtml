@@ -1,0 +1,66 @@
+﻿@model RegistrationRequestDto
+
+<form method="post">
+    <div class="container border p-4">
+        <div class="row text-center p-3">
+            <h1>Registar</h1>
+        </div>
+        <div class="row text-center">
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3 pb-2">
+                <input asp-for="Email" class="form-control" placeholder="Email..." />
+                <span asp-validation-for="Email" class="text-danger" />
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 pb-2">
+                <input asp-for="Nome" class="form-control" placeholder="Nome..." />
+                <span asp-validation-for="Nome" class="text-danger" />
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 pb-2">
+                <input asp-for="Telemovel" class="form-control" placeholder="Telemóvel..." />
+                <span asp-validation-for="Telemovel" class="text-danger" />
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 pb-2">
+                <div class="input-group">
+                    <input asp-for="Password" class="form-control" placeholder="Password..." type="password" id="passwordInput" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="togglePasswordVisibilityButton" onclick="togglePasswordVisibility()">
+                            <i class="fa fa-eye" id="togglePasswordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <span asp-validation-for="Password" class="text-danger" />
+            </div>
+
+            <div class="col-12 col-md-6 offset-md-3 pb-2">
+                <select asp-for="Funcao" class="form-select" asp-items="@ViewBag.FuncaoLista">
+                    <option disabled selected>--Selecciona função--</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-6 offset-md-3 pb-2">
+                <button type="submit" class="form-control btn btn-success" value="Submit">Registar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("passwordInput");
+            var togglePasswordIcon = document.getElementById("togglePasswordIcon");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                togglePasswordIcon.classList.remove("fa-eye");
+                togglePasswordIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                togglePasswordIcon.classList.remove("fa-eye-slash");
+                togglePasswordIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
+}

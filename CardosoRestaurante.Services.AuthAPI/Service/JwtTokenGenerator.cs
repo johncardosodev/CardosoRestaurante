@@ -18,7 +18,7 @@ namespace CardosoRestaurante.Services.AuthAPI.Service
         }
 
         //Aqui iremos configurar o token emissor e secrekey, e auadiance
-        public string GenerateToken(ApplicationUser applicationUser)
+        public string GenerateToken(ApplicationUser applicationUser, IEnumerable<string> roles)
         {
             var tokenHandler = new JwtSecurityTokenHandler(); //Cria uma instancia jwtSecurityTokenHandler que é responsável por criar e validar tokens
 
@@ -26,10 +26,12 @@ namespace CardosoRestaurante.Services.AuthAPI.Service
 
             var claimList = new List<Claim> //Cria uma lista de claims que são informações sobre o usuário que serão armazenadas no token. Neste caso, armazenamos o nome, email e id do usuário
             {
-                new Claim(ClaimTypes.Name, applicationUser.Nome), //Claim do nome
-                new Claim(ClaimTypes.Email, applicationUser.Email), //Claim do email
-                new Claim(ClaimTypes.NameIdentifier, applicationUser.Id) //Claim do id
+                new Claim(JwtRegisteredClaimNames.Name, applicationUser.UserName), //Claim do nome
+                new Claim(JwtRegisteredClaimNames.Email, applicationUser.Email), //Claim do email
+                new Claim(JwtRegisteredClaimNames.Sub, applicationUser.Id) //Claim do id
             };
+
+            claimList.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role))); //Adiciona as roles do usuário como claims ao token)
 
             var tokenDescriptor = new SecurityTokenDescriptor //Instancia SecurityTokenDescriptor que define as propriedades do token, como tempo de expiração, audiência, emissor e as credenciais de assinatura (chave secreta)
             {

@@ -34,7 +34,8 @@ namespace CardosoRestaurante.Services.AuthAPI.Service
             }
 
             //Se o utilizador existir, gerar JWT token
-            var token = _jwtTokenGenerator.GenerateToken(user); //Gera o token
+            var roles = await _userManager.GetRolesAsync(user);
+            var token = _jwtTokenGenerator.GenerateToken(user, roles); //Gera o token
 
             UserDto userDto = new UserDto() //Se o utilizador existir e a password for válida
             {

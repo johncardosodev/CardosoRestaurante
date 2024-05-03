@@ -1,4 +1,4 @@
-﻿namespace CardosoRestaurante.Web.Models.DTO
+﻿namespace CardosoRestaurante.Web.Models
 {
     public class LoginResponseDto
     {

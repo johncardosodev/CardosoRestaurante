@@ -11,12 +11,13 @@
 
     <link rel="stylesheet" href="~/CardosoRestaurante.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Font Awesome para a password -->
 </head>
 <body>
     <header>
        <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CardosoRestaurante.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Cardoso Restaurante</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -30,24 +31,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                        
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestão de conteúdo</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-area="" asp-controller="Cupao" asp-action="CupaoIndex">Cupao</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                               
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        @if (!User.Identity.IsAuthenticated) { 
+                        @if (!User.Identity.IsAuthenticated) {  //Se o utilizador não estiver autenticado
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Login</a>
                         </li>
@@ -55,8 +50,11 @@
                             <a class="nav-link text-dark" asp-controller="Auth" asp-action="Registar">Registar</a>
                             </li>
                         }
-                        else
+                        else //Se o utilizador estiver autenticado
                         {
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Olá, @User.Identity.Name.Split('@')[0]</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Auth" asp-action="Logout">Logout</a>
                             </li>
