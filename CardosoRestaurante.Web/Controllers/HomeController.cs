@@ -1,32 +1,54 @@
 using CardosoRestaurante.Web.Models;
+using CardosoRestaurante.Web.Models.Dto;
+using CardosoRestaurante.Web.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace CardosoRestaurante.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IProdutoService _produtoService; // Injeção de dependência do serviço ProdutoService
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IProdutoService produtoService)
         {
-            _logger = logger;
+            _produtoService = produtoService; // Inicialização do serviço ProdutoService para a classe ProdutoController
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<ProdutoDto>? lista = new();// Criação de uma lista de ProdutoDto vazia
+
+            ResponseDto? response = await _produtoService.GetTodosProdutosAsync(); // Obtenção de todos os cupões
+
+            if (response != null && response.Sucesso)
+            {
+                lista = JsonConvert.DeserializeObject<List<ProdutoDto>>(Convert.ToString(response.Resultado));// Desserialização do resultado da resposta para a lista de ProdutoDto
+            }
+            else
+            {
+                TempData["error"] = response?.Mensagem;
+            }
+            return View(lista);
         }
 
-        public IActionResult Privacy()
+        [Authorize] //Se houve login, o utilizador pode aceder a esta ação
+        public async Task<IActionResult> ProdutoDetalhes(int produtoId)
         {
-            return View();
-        }
+            ProdutoDto? objetoDto = new();// Criação de uma lista de ProdutoDto vazia
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ResponseDto? response = await _produtoService.GetProdutoPorIdAsync(produtoId); // Obtenção de todos os cupões
+
+            if (response != null && response.Sucesso)
+            {
+                objetoDto = JsonConvert.DeserializeObject<ProdutoDto>(Convert.ToString(response.Resultado));// Desserialização do resultado da resposta para ProdutoDto
+            }
+            else
+            {
+                TempData["error"] = response?.Mensagem;
+            }
+            return View(objetoDto);
         }
     }
 }

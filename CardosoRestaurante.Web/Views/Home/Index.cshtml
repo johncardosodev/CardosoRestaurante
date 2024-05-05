@@ -1,3 +1,31 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using CardosoRestaurante.Web.Models.Dto
+@model IEnumerable<ProdutoDto>
+
+<form>
+    <div class="container row">
+        @foreach (var produto in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="p-0 my-3 border rounded">
+                    <div class="card">
+                        <h3 class="card-title text-white-100 text-center py-2">@produto.Nome</h3>
+                        <img src="@produto.ImagemUrl" class="card-img-top">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between py-2">
+                                <span class="text-danger" style="font-size:20px;">@produto.Preco.ToString("c", new System.Globalization.CultureInfo("pt-PT"))</span>
+                                <span class="badge bg-warning text-white p-6">@produto.Categoria</span>
+                            </div>
+                            <p class="card-text">@Html.Raw(produto.Descricao)</p>
+                            <div class="row">
+                                <div class="col">
+                                    <a asp-action="ProdutoDetalhes" asp-route-produtoId="@produto.ProdutoId"
+                                       class="btn btn-success form-control">Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</form>

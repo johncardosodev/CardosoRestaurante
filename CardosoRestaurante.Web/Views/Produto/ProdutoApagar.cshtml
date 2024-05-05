@@ -1,0 +1,71 @@
+﻿@using CardosoRestaurante.Web.Models.Dto
+@model ProdutoDto
+<form asp-action="ProdutoApagar">
+    <br />
+    <input asp-for="ProdutoId" hidden />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Apagar cupão @Model.Nome</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-2">
+                <label asp-for="Nome" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Nome" readonly class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+
+            </div>
+            <div class="col-2">
+                <label asp-for="Descricao" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <textarea asp-for="Descricao" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+
+            </div>
+            <div class="col-2">
+                <label asp-for="Preco" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Preco" readonly class="form-control" />
+                <span asp-validation-for="Preco" class="text-danger"></span>
+
+            </div>
+
+            <div class="col-2">
+                <label asp-for="Categoria" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Categoria" readonly class="form-control" />
+                <span asp-validation-for="Categoria" class="text-danger"></span>
+
+            </div>   <div class="col-2">
+                <label asp-for="ImagemUrl" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="ImagemUrl" readonly class="form-control" />
+                <span asp-validation-for="ImagemUrl" class="text-danger"></span>
+
+            </div>
+
+            <div class="col-5 offset-2">
+
+                <a asp-action="ProdutoIndex" class="btn-primary btn form-control ">Voltar</a>
+            </div>
+            <div class="col-5">
+                <input asp-action="ProdutoApagar" type="submit" value="Apagar" class="btn btn-success form-control" />
+                            </div>
+
+        </div>
+
+        
+    </div>
+</form>
+
+@*Valida;oes no lado do cliente. Assim, nao ]e preciso fazer post*@
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

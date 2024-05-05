@@ -1,4 +1,4 @@
-﻿namespace CardosoRestaurante.Services.CupaoAPI.Models.DTO
+﻿namespace CardosoRestaurante.Services.ProdutoAPI.Models.DTO
 {
     /// <summary>
     ///  O propósito de um ResponseDTO (Data Transfer Object) é encapsular os dados que serão retornados como resposta de uma operação em um serviço ou API. Ele é usado para transmitir informações de volta ao cliente ou consumidor da API de forma estruturada e padronizada.

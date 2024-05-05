@@ -165,3 +165,41 @@ o token ser valido.
 1. Adicionar JwtOptions no container de servicos
 
 
+## ProdutoAPI
+Passos para criar um microserviço
+1. Configurar Produto database/tables
+	1. Mudar DbContext	
+1. Configurar DbContext e Popular a base de dados
+1. Configurar AutoMapper
+	1.	Criar Dtos e ver os servi;os
+1. CRUD API (Atençao a alterar o nome das variaveis) Usar ctr+shift+F	
+1	. Configurar Autenticacao e Autorizacao na API (Atençao e alterar o programa.cs relacionado com autenticacao)
+	1. Criar/Editar/Apagar - Admin Funcao
+	1. Ler - Todos os usuarios
+1. Web Project para consumir a API (ProdutoAPI Port -7000)
+1. Implementar ProdutoService e Controllador no Web Project
+1. Views para o CRUD
+
+## CarrinhoAPI
+Logica Carrinho de compras
+1	. Utilizador adiciona um produto ao carrinho
+1	. Criar CarrinhoInfo
+1	. Criar Carrinhodetalhes
+
+1	. Utilizadir adiciona um produto ao carrinho onde já existe outros items no carrinho
+1. Encontrar carrinhoInfo					
+1	. Adicionar produto ao carrinho no mesmo CarrrinhoInfo Id
+
+1	. Utilizador atualiza quantidade de um produto existente no carrinho
+1	. Procurar CarrinhoDetalhes
+1	. Atualizar quantidade do produto no CarrinhoDetalhes
+
+## O que mais aprendi
+1	. Boas praticas da estrutura de microservi;os
+1	. Importância de usar DTOs
+1	. Como usar AutoMapper
+1. Importancia de usar as boas praticas de autenticacao e autorizacao		
+1	. Importancia de nomear bem as variaveis
+1. Como usar JWT token
+
+

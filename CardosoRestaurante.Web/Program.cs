@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//############################################################################################################ CupaoAPI ############################################################################################################
+//################# ################################################ Configuracao dos serviços iniciais #########################################################################################################
 /*O HttpContextAccessor fornece acesso ao contexto HTTP atual, permitindo que você obtenha informações
  * sobre a requisição atual, como o endereço IP, cabeçalhos, cookies, entre outros.
  * Nesse caso específico, o serviço está sendo adicionado para que seja possível obter o endereço IP do usuário.*/
@@ -21,10 +21,22 @@ Por exemplo, você pode usar o HttpClient para fazer solicitações GET, POST, PUT 
 
 Essa linha de código é importante para configurar a capacidade de comunicação da sua aplicação com APIs externas e é frequentemente usada em cenários de integração de sistemas ou consumo de serviços web*/
 builder.Services.AddHttpClient(); // Para fazer solicitações HTTP a outras APIs externas
+
+/*Essa linha de código adiciona o BaseService como um serviço disponível no contêiner de serviços da aplicação, utilizando a interface IBaseService.
+Ao adicionar esse serviço, você está configurando a capacidade da sua aplicação de enviar solicitações HTTP.
+Isso é útil quando você precisa se comunicar com APIs externas ou realizar operações de comunicação com outros serviços.
+O Scoped indica que uma nova instância do BaseService será criada para cada escopo de solicitação.
+
+Isso significa que cada vez que uma solicitação HTTP for feita, uma nova instância do BaseService será criada e usada para processar essa solicitação. Isso garante que cada solicitação tenha seu próprio estado isolado.
+Ao adicionar o BaseService como um serviço no contêiner de serviços da aplicação, você pode injetá-lo em outras partes da aplicação que o requerem.
+Isso permite que você utilize as funcionalidades fornecidas pelo BaseService em diferentes partes do código, sem precisar criar uma nova instância toda vez que precisar usá-lo.*/
+builder.Services.AddScoped<IBaseService, BaseService>(); // Adiciona o serviço BaseService ao contêiner de serviços da aplicação para enviar solicitações HTTP
+
+//############################################################################################################ CupaoAPI ############################################################################################################
+
 /*O serviço HttpClient está sendo configurado para trabalhar com a interface ICupaoService e a classe CupaoService.
  * Isso significa que o HttpClient será usado para fazer solicitações HTTP para a API relacionada aos cupons de desconto, utilizando a implementação fornecida pela classe CupaoService*/
 builder.Services.AddHttpClient<ICupaoService, CupaoService>(); // Para fazer solicitações HTTP à API de cupons de desconto
-
 /*A linha de código selecionada builder.Configuration["ServiceUrls:CupaoAPI"]; está acessando a configuração da aplicação para obter a URL base da API de cupons de desconto.
 No ASP.NET Core, a configuração da aplicação é armazenada em um objeto chamado Configuration. Esse objeto contém uma coleção de pares chave-valor que representam as configurações definidas para a aplicação.
 Nesse caso específico, a chave "ServiceUrls:CupaoAPI" está sendo usada para acessar a URL base da API de cupons de desconto.
@@ -36,15 +48,6 @@ Esse valor representa a URL base da API de cupons de desconto e será atribuído à
 
 Essa abordagem permite que a URL base da API de cupons de desconto seja configurada externamente, no arquivo appsettings.json, sem a necessidade de modificar o código fonte. Isso facilita a configuração e a manutenção da aplicação, pois as configurações podem ser alteradas sem a necessidade de recompilar o código.*/
 SD.CupaoAPIBase = builder.Configuration["ServicesUrls:CupaoAPI"]; // Define a URL base da API de cupons de desconto a partir da configuração da aplicação
-/*Essa linha de código adiciona o BaseService como um serviço disponível no contêiner de serviços da aplicação, utilizando a interface IBaseService.
-Ao adicionar esse serviço, você está configurando a capacidade da sua aplicação de enviar solicitações HTTP.
-Isso é útil quando você precisa se comunicar com APIs externas ou realizar operações de comunicação com outros serviços.
-O Scoped indica que uma nova instância do BaseService será criada para cada escopo de solicitação.
-
-Isso significa que cada vez que uma solicitação HTTP for feita, uma nova instância do BaseService será criada e usada para processar essa solicitação. Isso garante que cada solicitação tenha seu próprio estado isolado.
-Ao adicionar o BaseService como um serviço no contêiner de serviços da aplicação, você pode injetá-lo em outras partes da aplicação que o requerem.
-Isso permite que você utilize as funcionalidades fornecidas pelo BaseService em diferentes partes do código, sem precisar criar uma nova instância toda vez que precisar usá-lo.*/
-builder.Services.AddScoped<IBaseService, BaseService>(); // Adiciona o serviço BaseService ao contêiner de serviços da aplicação para enviar solicitações HTTP
 builder.Services.AddScoped<ICupaoService, CupaoService>(); // Adiciona o serviço CupaoService ao contêiner de serviços da aplicação para lidar com operações relacionadas a cupons de desconto
 
 //############################################################################################################ AuthenticationAPI ###############################################################################
@@ -61,21 +64,26 @@ Em seguida, você pode usar o método AddCookie para configurar opções específicas
 •	options.AccessDeniedPath = "/Auth/AccessDenied";: Define o caminho para a página de acesso negado da aplicação. Quando um usuário autenticado tenta acessar uma página para a qual não tem permissão, ele será redirecionado para essa página.
 Essa configuração permite que a aplicação utilize a autenticação baseada em cookies para proteger rotas e recursos específicos, garantindo que apenas usuários autenticados tenham acesso a eles.*/
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) // Configura a autenticação baseada em cookies
-    .AddCookie(options =>
-    {
-        options.ExpireTimeSpan = TimeSpan.FromHours(10);
-        options.LoginPath = "/Auth/Login";
-        options.AccessDeniedPath = "/Auth/AccessDenied";
-    });
+.AddCookie(options =>
+{
+	options.ExpireTimeSpan = TimeSpan.FromHours(10);
+	options.LoginPath = "/Auth/Login";
+	options.AccessDeniedPath = "/Auth/AccessDenied";
+});
+
+//############################################################################################################ ProdutoAPI ############################################################################################################
+SD.ProdutoAPIBase = builder.Configuration["ServicesUrls:ProdutoAPI"]; // Define a URL base da API de produtos a partir da configuração da aplicação
+builder.Services.AddHttpClient<IProdutoService, ProdutoService>(); // Para fazer solicitações HTTP à API de produtos
+builder.Services.AddScoped<IProdutoService, ProdutoService>(); // Adiciona o serviço ProdutoService ao contêiner de serviços da aplicação para lidar com operações relacionadas a produtos
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -86,7 +94,7 @@ app.UseAuthentication(); //Tem que ser antes de autorização
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+	name: "default",
+	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
