@@ -33,7 +33,7 @@ namespace CardosoRestaurante.Services.CarrinhoAPI.Models
         /// Uma propriedade que não é mapeada para o banco de dados e representa um objeto de transferência de dados (DTO) para o produto.
         /// </summary>
         [NotMapped]
-        public ProdutoDto productDto { get; set; }
+        public ProdutoDto produtoDto { get; set; }
 
         /// <summary>
         /// Representa a quantidade do produto selecionado que está no carrinho.

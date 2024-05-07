@@ -1,0 +1,105 @@
+﻿@model CarrinhoDto
+@if(Model.CarrinhoInfo !=null && Model.CarrinhoDetalhes?.Count() > 0) @*Se houver alguma coisa no carrinho*@
+  {  <form method="post" asp-action="EmailCarrinho">
+        <br />
+
+        <input asp-for="CarrinhoInfo.UserId" hidden /> @*Aqui é onde o utilizador é passado para o carrinho*@ 
+        <input asp-for="CarrinhoInfo.CarrinhoInfoId" hidden /> @*Aqui é onde o carrinho é passado para o carrinhoInfo*@
+        <div class="">
+            <div class="card border mt-4 container">
+                <div class="card-header  text-light ml-0 row ">
+                    <div class="col-6">
+                        <h3 class="text-success"><i class="bi bi-cart"></i> &nbsp; Carrinho de pedidos</h3>
+                    </div>
+                    <div class="col-6 text-end">
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-warning mt-2 btn-sm">Continuar com pedido</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class=" d-none d-lg-block">
+                        <div class="row text-info">
+                            <div class="col-lg-2">
+                            </div>
+                            <div class="col-lg-5">
+                                Detalhes
+                            </div>
+                            <div class="col-lg-2">
+                                Preço
+                            </div>
+                            <div class="col-lg-2">
+                                Quantidade
+                            </div>
+                        
+                            <div class="col-lg-1">
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+
+                    @foreach (var carrinhoObjecto in Model.CarrinhoDetalhes){
+                        <div class="row h-100">
+                            <div class="col-4 col-md-2 text-center py-2">
+                            <img src="@carrinhoObjecto.produtoDto.ImagemUrl" class="rounded" width="100%" />
+                        </div>
+                            <div class="col-8 col-md-5">
+                            <h5>@carrinhoObjecto.produtoDto.Nome</h5>
+                            <div style="font-size:11px;">@Html.Raw(@carrinhoObjecto.produtoDto.Descricao)</div>
+                            </div>
+                            <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
+                            <span style="font-size:17px;">@carrinhoObjecto.produtoDto.Preco.ToString("c", new System.Globalization.CultureInfo("pt-PT")) </span>
+                            </div>
+                            <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
+                            <span style="font-size:17px;"> @carrinhoObjecto.Quantidade</span>
+                            </div>                       
+                            <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
+                                <a asp-action="RemoverItem" asp-route-carrinhoDetalhesId="@carrinhoObjecto.CarrinhoDetalhesId" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                }
+                        <hr />
+                    <div class="row">
+                    <div class="col-2" >
+                        @if (string.IsNullOrEmpty(Model.CarrinhoInfo.CupaoCodigo))
+                        {
+
+                            <span>Cupão:</span>
+                            <input asp-for="CarrinhoInfo.CupaoCodigo" class="form-control" />
+                            <button type="submit" asp-action="AplicarCupao" class="btn btn-sm btn-success"> Adicionar </button>
+                        }
+                        else
+                        {
+                            <span>Cupão:</span>
+                            <input asp-for="CarrinhoInfo.CupaoCodigo" />
+                            <button type="submit" asp-action="RemoverCupao" class="btn btn-sm btn-danger"> Remover </button>
+                        }
+
+                        </div>
+                        <div class="col-6 text-end">
+                        <span class="text-danger" style="font-size:21px;">  Pedido Total : @Model.CarrinhoInfo.CarrinhoTotal.ToString("c", new System.Globalization.CultureInfo("pt-PT")) <br /></span>
+                        @if(Model.CarrinhoInfo.Desconto > 0)   {
+                            <span class="text-success"> Desconto no pedido :  @Model.CarrinhoInfo.Desconto.ToString("c", new System.Globalization.CultureInfo("pt-PT"))</span>
+                        }     
+                        
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer row">
+                    <div class="col-6 col-md-3 ">
+                        <button type="submit" class="btn btn-outline-danger form-control"></button>
+                    </div>
+                    <div class="col-6 col-md-3 offset-md-6">
+                    <button disabled class="btn btn-success form-control ">Pagamento</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+                else
+                {
+                    <div class="container">
+                        <h3 class="text-center text-danger">O carrinho está vazio</h3>
+                    </div>
+                }

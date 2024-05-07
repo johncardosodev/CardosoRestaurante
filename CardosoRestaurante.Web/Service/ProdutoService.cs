@@ -1,5 +1,4 @@
 ﻿using CardosoRestaurante.Web.Models;
-using CardosoRestaurante.Web.Models.Dto;
 using CardosoRestaurante.Web.Service.IService;
 using CardosoRestaurante.Web.Utility;
 

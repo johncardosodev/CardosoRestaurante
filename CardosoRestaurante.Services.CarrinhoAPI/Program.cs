@@ -1,7 +1,11 @@
 using AutoMapper;
+using CardosoRestaurante.MessageBus;
 using CardosoRestaurante.Services.Carrinho;
 using CardosoRestaurante.Services.Carrinho.Data;
 using CardosoRestaurante.Services.Carrinho.Extensions;
+using CardosoRestaurante.Services.CarrinhoAPI.Service;
+using CardosoRestaurante.Services.CarrinhoAPI.Service.IService;
+using CardosoRestaurante.Services.CarrinhoAPI.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -21,6 +25,39 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper(); //Configurar o mapeamento entre as classes Cupao e CupaoDto
 builder.Services.AddSingleton(mapper); //Registar o mapeamento no container de servicos
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //Registar o AutoMapper no container de servicos
+
+//#### Autenticacao ####
+builder.Services.AddHttpContextAccessor();    //Adicionar o HttpContextAccessor ao container de servicos
+builder.Services.AddScoped<BackendApiAuthenticationHttpClientHandler>(); //Registar o servico de autenticacao no container de servicos
+
+//###### ProdutoAPI ######
+/*Este trecho de código configura um cliente HTTP chamado "Produto" que será usado para se comunicar com um serviço chamado "ProdutoAPI". Vamos analisar o código passo a passo:
+1.	A função AddHttpClient é usada para adicionar um cliente HTTP chamado "Produto" ao container de serviços da aplicação. Esse cliente será usado para fazer requisições HTTP para o serviço "ProdutoAPI".
+2.	Dentro da função AddHttpClient, é configurado o endereço base do serviço "ProdutoAPI" através da propriedade BaseAddress. O valor dessa propriedade é obtido a partir da configuração da aplicação, mais especificamente da chave "ServicesUrls:ProdutoAPI".
+3.	Em seguida, é adicionado um HttpMessageHandler chamado BackendApiAuthenticationHttpClientHandler ao cliente HTTP. Um HttpMessageHandler é responsável por processar as requisições HTTP antes de serem enviadas para o servidor. Nesse caso, o BackendApiAuthenticationHttpClientHandler é usado para adicionar autenticação ao cliente HTTP, garantindo que as requisições sejam feitas de forma segura e autorizada.
+Portanto, esse código configura um cliente HTTP chamado "Produto" que será usado para se comunicar com o serviço "ProdutoAPI". O endereço base do serviço é configurado e a autenticação é adicionada ao cliente HTTP para garantir a segurança das requisições.
+*/
+builder.Services.AddHttpClient("Produto", config =>
+    config.BaseAddress = new Uri(builder.Configuration["ServicesUrls:ProdutoAPI"]))
+    .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>(); //Configurar o endereco base do servico Produto API
+
+builder.Services.AddScoped<IProdutoService, ProdutoService>(); //Registar o servico de Produto no container de servicos da aplicacao
+
+//###### CupaoAPI ######
+/*Este trecho de código configura um cliente HTTP para se comunicar com um serviço chamado "CupaoAPI". Vamos analisar o código passo a passo:
+1.	A função AddHttpClient é usada para adicionar um cliente HTTP chamado "Cupao" ao container de serviços da aplicação. Esse cliente será usado para fazer requisições HTTP para o serviço "CupaoAPI".
+2.	Dentro da função AddHttpClient, é configurado o endereço base do serviço "CupaoAPI" através da propriedade BaseAddress. O valor dessa propriedade é obtido a partir da configuração da aplicação, mais especificamente da chave "ServicesUrls:CupaoAPI".
+3.	Em seguida, é adicionado um HttpMessageHandler chamado BackendApiAuthenticationHttpClientHandler ao cliente HTTP. Um HttpMessageHandler é responsável por processar as requisições HTTP antes de serem enviadas para o servidor. Nesse caso, o BackendApiAuthenticationHttpClientHandler é usado para adicionar autenticação ao cliente HTTP, garantindo que as requisições sejam feitas de forma segura e autorizada.
+Portanto, esse código configura um cliente HTTP chamado "Cupao" que será usado para se comunicar com o serviço "CupaoAPI". O endereço base do serviço é configurado e a autenticação é adicionada ao cliente HTTP para garantir a segurança das requisições.
+*/
+builder.Services.AddHttpClient("Cupao", config =>
+    config.BaseAddress = new Uri(builder.Configuration["ServicesUrls:CupaoAPI"]))
+    .AddHttpMessageHandler<BackendApiAuthenticationHttpClientHandler>();  //Configurar o endereco base do servico Cupao API
+
+builder.Services.AddScoped<ICupaoService, CupaoService>(); //Registar o servico de Cupao no container de servicos da aplicacao
+
+//###### ServiceBus ######
+builder.Services.AddScoped<IMessageBus, MessageBus>(); //Registar o servico de MessageBus no container de servicos da aplicacao
 
 builder.Services.AddControllers();
 
@@ -62,7 +99,7 @@ builder.Services.AddSwaggerGen(option =>
     });
     option.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Swagger CardosoRestaurante - OpenAPI 3.0",
+        Title = "Swagger CardosoRestaurante.CarrinhoAPI - OpenAPI 3.0",
         Version = "v1",
         Description = "Este é a API do CardosoRestaurante realizada por João Cardoso"
     });

@@ -24,7 +24,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardosoRestaurante.Services
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardosoRestaurante.Services.ProdutoAPI", "CardosoRestaurante.Services.ProdutoAPI\CardosoRestaurante.Services.ProdutoAPI.csproj", "{5F634C7A-F724-49A4-AD10-091ABD99D9F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardosoRestaurante.Services.CarrinhoAPI", "CardosoRestaurante.Services.CarrinhoAPI\CardosoRestaurante.Services.CarrinhoAPI.csproj", "{5284593C-C882-4649-84B5-A95451333370}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardosoRestaurante.Services.CarrinhoAPI", "CardosoRestaurante.Services.CarrinhoAPI\CardosoRestaurante.Services.CarrinhoAPI.csproj", "{5284593C-C882-4649-84B5-A95451333370}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardosoRestaurante.MessageBus", "CardosoRestaurante.MessageBus\CardosoRestaurante.MessageBus.csproj", "{B6A78AA7-6210-49AC-A808-F2772606D374}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +54,10 @@ Global
 		{5284593C-C882-4649-84B5-A95451333370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5284593C-C882-4649-84B5-A95451333370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5284593C-C882-4649-84B5-A95451333370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A78AA7-6210-49AC-A808-F2772606D374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A78AA7-6210-49AC-A808-F2772606D374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A78AA7-6210-49AC-A808-F2772606D374}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A78AA7-6210-49AC-A808-F2772606D374}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{062293EA-B68C-4C4B-A19A-2817600D03E0} = {179ACE96-B22B-46A1-8155-056AAE80B780}
 		{5F634C7A-F724-49A4-AD10-091ABD99D9F0} = {179ACE96-B22B-46A1-8155-056AAE80B780}
 		{5284593C-C882-4649-84B5-A95451333370} = {179ACE96-B22B-46A1-8155-056AAE80B780}
+		{B6A78AA7-6210-49AC-A808-F2772606D374} = {179ACE96-B22B-46A1-8155-056AAE80B780}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6CB45FF5-A95B-40E8-9EC9-46E82BB1134F}

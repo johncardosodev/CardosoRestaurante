@@ -1,4 +1,4 @@
-﻿namespace CardosoRestaurante.Services.CarrinhoAPI.Models
+﻿namespace CardosoRestaurante.Web.Models
 {
     /// <summary>
     /// Esta classe é usada para armazenar e transferir informações sobre um carrinho de compras em um aplicativo de restaurante. Ela fornece uma estrutura organizada para armazenar os detalhes do carrinho e facilita a transferência dessas informações entre diferentes partes do aplicativo.
@@ -17,7 +17,6 @@
 
         public string? Nome { get; set; }
         public string? UltimoNome { get; set; }
-
         public string? Telemovel { get; set; }
         public string? Email { get; set; }
     }

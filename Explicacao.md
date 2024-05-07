@@ -203,3 +203,30 @@ Logica Carrinho de compras
 1. Como usar JWT token
 
 
+## Service Bus
+Para que serve?
+1. Service Bus é um serviço de mensagens totalmente gerenciado que permite a comunicação entre aplicativos e serviços. 
+1. Ele fornece uma maneira confiável e segura de transmitir mensagens entre aplicativos e serviços, permitindo a integração de sistemas distribuídos e a construção de aplicativos escaláveis e resilientes.
+
+Queue
+1. Uma fila é uma estrutura de dados que armazena mensagens em uma ordem específica.
+
+## Notas
+1	. Topic e queue tem que ter nomes diferentes
+1	. Necessario instalar o pacote Microsoft.Azure.ServiceBus
+## Passos.
+1	. Criar Class Library para ServiceBus		
+1	. Implementar interface e classe para ServiceBus		
+1	. Ir ao azure e configurar o ServiceBus
+1	. Adicionar program.cs AddServiceBus no carrinhoAPI
+1	. Dentro do CarrinhoAPI, adicionar no appSettings 
+		"TopicAndQueueNames": {
+			"EmailCarrinho": "emailcarrinho"    //Nome do emailCarrinho tem que ser igual ao nome do topico no azure
+		  }
+1	. Adicionar Task<ResponseDto?> EmailCarrinho(CarrinhoDto carrinhoDto); no interface ICarrinhoService
+1. Implementar CarrinhoService como post EmailCarrinho
+1	. Adicionar EmailCarrinhoRequest no CarrinhoAPI			
+1	.	.Agora no FrontEnd, adicionar EmailCarrinho no Controllador									
+1	. Testamos o envio da resposta com açao EmailCarrinho. Vemos depois no Azure se a mensagem foi enviada.
+
+Depois de tudo testado, Precisamos de um API que lê a mensagem do ServiceBus e envia o email.

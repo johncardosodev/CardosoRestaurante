@@ -56,6 +56,12 @@ builder.Services.AddHttpClient<IAuthService, AuthService>(); // Para fazer solic
 builder.Services.AddScoped<ITokenProvider, TokenProvider>(); // Adiciona o serviço TokenProvider ao contêiner de serviços da aplicação para lidar com o token JWT
 builder.Services.AddScoped<IAuthService, AuthService>(); // Adiciona o serviço AuthService ao contêiner de serviços da aplicação para lidar com operações relacionadas à autenticação
 
+//############################################################################################################ CarrinhoAPI ############################################################################################################
+
+SD.CarrinhoAPIBase = builder.Configuration["ServicesUrls:CarrinhoAPI"]; // Define a URL base da API de carrinhos a partir da configuração da aplicação
+builder.Services.AddHttpClient<ICarrinhoService, CarrinhoService>(); // Para fazer solicitações HTTP à API de carrinhos
+builder.Services.AddScoped<ICarrinhoService, CarrinhoService>(); // Adiciona o serviço CarrinhoService ao contêiner de serviços da aplicação para lidar com operações relacionadas a carrinhos
+
 /*A linha de código selecionada está adicionando a autenticação baseada em cookies ao pipeline de solicitação HTTP da aplicação. Isso significa que, quando um usuário faz uma solicitação para a aplicação, o sistema verifica se o usuário está autenticado por meio de cookies.
 Ao chamar o método AddAuthentication e passar CookieAuthenticationDefaults.AuthenticationScheme como argumento, você está configurando a autenticação baseada em cookies como o esquema de autenticação padrão da aplicação. Isso significa que os cookies serão usados para autenticar os usuários.
 Em seguida, você pode usar o método AddCookie para configurar opções específicas para a autenticação baseada em cookies. No exemplo fornecido, as opções estão sendo configuradas da seguinte maneira:
@@ -66,9 +72,9 @@ Essa configuração permite que a aplicação utilize a autenticação baseada em cook
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) // Configura a autenticação baseada em cookies
 .AddCookie(options =>
 {
-	options.ExpireTimeSpan = TimeSpan.FromHours(10);
-	options.LoginPath = "/Auth/Login";
-	options.AccessDeniedPath = "/Auth/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromHours(10);
+    options.LoginPath = "/Auth/Login";
+    options.AccessDeniedPath = "/Auth/AccessDenied";
 });
 
 //############################################################################################################ ProdutoAPI ############################################################################################################
@@ -81,9 +87,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -94,7 +100,7 @@ app.UseAuthentication(); //Tem que ser antes de autorização
 app.UseAuthorization();
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

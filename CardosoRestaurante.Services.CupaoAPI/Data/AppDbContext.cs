@@ -15,9 +15,9 @@ namespace CardosoRestaurante.Services.CupaoAPI.Data
         {
             base.OnModelCreating(modelBuilder); //Isto é necessário para evitar erros ao criar a base de dados com a migração do Entity Framework Core
 
-            modelBuilder.Entity<Cupao>().HasData(new Cupao { CupaoId = 1, CupaoCodigo = "PJ20", Desconto = 10, ValorMinimo = 50 });
-            modelBuilder.Entity<Cupao>().HasData(new Cupao { CupaoId = 2, CupaoCodigo = "RBOTICAS10", Desconto = 10, ValorMinimo = 100 });
-            modelBuilder.Entity<Cupao>().HasData(new Cupao { CupaoId = 3, CupaoCodigo = "MARCOS10", Desconto = 10, ValorMinimo = 150 });
+            modelBuilder.Entity<Cupao>().HasData(new Cupao { CupaoId = 1, CupaoCodigo = "PJ10", Desconto = 10, ValorMinimo = 10 });
+            modelBuilder.Entity<Cupao>().HasData(new Cupao { CupaoId = 2, CupaoCodigo = "RBOTICAS10", Desconto = 10, ValorMinimo = 10 });
+            modelBuilder.Entity<Cupao>().HasData(new Cupao { CupaoId = 3, CupaoCodigo = "MARCOS10", Desconto = 10, ValorMinimo = 10 });
         }
     }
 }

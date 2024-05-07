@@ -1,6 +1,4 @@
-﻿using CardosoRestaurante.Services.Carrinho.Models.Dto;
-
-namespace CardosoRestaurante.Services.CarrinhoAPI.Models
+﻿namespace CardosoRestaurante.Web.Models
 {
     public class CarrinhoDetalhesDto
     {

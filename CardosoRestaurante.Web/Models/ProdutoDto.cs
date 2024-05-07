@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CardosoRestaurante.Web.Models.Dto
+namespace CardosoRestaurante.Web.Models
 {
     /// <summary>
     /// Representa um objeto de transferência de dados (DTO) para um produto.

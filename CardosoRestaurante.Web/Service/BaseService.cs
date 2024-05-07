@@ -7,21 +7,26 @@ using static CardosoRestaurante.Web.Utility.SD;
 
 namespace CardosoRestaurante.Web.Service
 {
-    //A classe BaseService é uma classe que fornece uma implementação base para enviar solicitações HTTP e receber respostas HTTP. Ela é projetada para ser herdada por outras classes de serviço no namespace CardosoRestaurante.Web.
-
-    //O propósito da classe BaseService é encapsular funcionalidades comuns relacionadas ao envio de solicitações HTTP, como criar uma instância de HttpClient, definir cabeçalhos de solicitação, lidar com diferentes métodos HTTP (GET, POST, PUT, DELETE) e lidar com diferentes códigos de status HTTP. A classe tem um construtor que recebe um parâmetro IHttpClientFactory. Esta interface é usada para criar instâncias de HttpClient para enviar solicitações HTTP e receber respostas de um URI. O método EnviarAsync é o principal método da classe BaseService. Ele recebe um parâmetro RequestDto e retorna um objeto ResponseDto de forma assíncrona. Dentro deste método, as seguintes etapas são realizadas:
-    //1.	Uma instância de HttpClient é criada usando a instância IHttpClientFactory.
-    //2.	Uma instância de HttpRequestMessage é criada.
-    //3.	Os cabeçalhos de solicitação são definidos, incluindo o cabeçalho "Accept" com o valor "application/json".
-    //4.	A URL da solicitação é definida com base na propriedade Url do parâmetro RequestDto.
-    //5.	Se a propriedade Data do parâmetro RequestDto não for nula, o conteúdo da solicitação é definido com a representação JSON serializada da propriedade Data.
-    //6.	O método HTTP é determinado com base na propriedade ApiTipo do parâmetro RequestDto.
-    //7.	A solicitação HTTP é enviada de forma assíncrona usando o método EnviarAsync do HttpClient.
-    //8.	O código de status da resposta HTTP é verificado e, com base no código de status, um objeto ResponseDto correspondente é criado e retornado.
-    //9.	Se ocorrer uma exceção durante o processo, um objeto ResponseDto é criado com a mensagem de exceção e um valor falso para a propriedade Sucesso.
-    //
-    //Em resumo, a classe BaseService fornece uma implementação reutilizável para enviar solicitações HTTP e lidar com respostas, que pode ser herdada por outras classes de serviço para simplificar a implementação de funcionalidades relacionadas ao HTTP.
-
+    /// <summary>
+    /// O propósito da classe BaseService é encapsular funcionalidades comuns relacionadas ao envio de solicitações HTTP, como criar uma instância de HttpClient, definir cabeçalhos de solicitação, lidar com diferentes métodos HTTP(GET, POST, PUT,
+    /// DELETE) e lidar com diferentes códigos de status HTTP.
+    /// <para>A classe tem um construtor que recebe um parâmetro IHttpClientFactory.Esta interface é usada para criar instâncias de HttpClient para enviar solicitações HTTP e receber respostas de um URI.O método EnviarAsync é o principal método 
+    /// da classe BaseService.Ele recebe um parâmetro RequestDto e retorna um objeto ResponseDto de forma assíncrona.</para>
+    /// </summary>
+    /// <remarks>
+    /// <para>Dentro deste método, as seguintes etapas são realizadas:</para>
+    /// <para>1. Uma instância de HttpClient é criada usando a instância IHttpClientFactory.</para>
+    /// <para>2. Uma instância de HttpRequestMessage é criada.</para>
+    /// <para>3. Os cabeçalhos de solicitação são definidos, incluindo o cabeçalho "Accept" com o valor "application/json".</para>
+    /// <para>4. A URL da solicitação é definida com base na propriedade Url do parâmetro RequestDto.</para>
+    /// <para>5. Se a propriedade Data do parâmetro RequestDto não for nula, o conteúdo da solicitação é definido com a representação JSON serializada da propriedade Data.</para>
+    /// <para>6. O método HTTP é determinado com base na propriedade ApiTipo do parâmetro RequestDto.</para>
+    /// <para>7. A solicitação HTTP é enviada de forma assíncrona usando o método EnviarAsync do HttpClient.</para>
+    /// <para>8. O código de status da resposta HTTP é verificado e, com base no código de status, um objeto ResponseDto correspondente é criado e retornado.</para>
+    /// <para>9. Se ocorrer uma exceção durante o processo, um objeto ResponseDto é criado com a mensagem de exceção e um valor falso para a propriedade Sucesso.</para>
+    /// <para>Em resumo, a classe BaseService fornece uma implementação reutilizável para enviar solicitações HTTP e lidar com respostas,</para>
+    /// <para>que pode ser herdada por outras classes de serviço para simplificar a implementação de funcionalidades relacionadas ao HTTP.</para>
+    /// </remarks>
     public class BaseService : IBaseService
     {
         private readonly IHttpClientFactory _httpClientFactory; // Interface para criar instâncias de HttpClient para enviar solicitações HTTP e receber respostas HTTP de um URI

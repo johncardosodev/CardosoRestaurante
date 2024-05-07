@@ -1,6 +1,6 @@
 using CardosoRestaurante.Web.Models;
-using CardosoRestaurante.Web.Models.Dto;
 using CardosoRestaurante.Web.Service.IService;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,10 +10,12 @@ namespace CardosoRestaurante.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IProdutoService _produtoService; // Injeção de dependência do serviço ProdutoService
+        private readonly ICarrinhoService _carrinhoService; // Injeção de dependência do serviço CarrinhoService
 
-        public HomeController(IProdutoService produtoService)
+        public HomeController(IProdutoService produtoService, ICarrinhoService carrinhoService)
         {
             _produtoService = produtoService; // Inicialização do serviço ProdutoService para a classe ProdutoController
+            _carrinhoService = carrinhoService;
         }
 
         public async Task<IActionResult> Index()
@@ -49,6 +51,43 @@ namespace CardosoRestaurante.Web.Controllers
                 TempData["error"] = response?.Mensagem;
             }
             return View(objetoDto);
+        }
+
+        [Authorize] //Se houve login, o utilizador pode aceder a esta ação
+        [HttpPost]
+        [ActionName("ProdutoDetalhes")]
+        public async Task<IActionResult> ProdutoDetalhes(ProdutoDto produtoDto)
+        {
+            CarrinhoDto carrinho = new()
+            {
+                CarrinhoInfo = new CarrinhoInfoDto()
+                {
+                    UserId = User.Claims.Where(u => u.Type == JwtClaimTypes.Subject).FirstOrDefault()?.Value,
+                }
+            };
+
+            CarrinhoDetalhesDto carrinhoDetalhesDto = new()
+            {
+                ProdutoId = produtoDto.ProdutoId,
+                Quantidade = produtoDto.Quantidade
+            };
+
+            List<CarrinhoDetalhesDto> listaCarrinho = new() { carrinhoDetalhesDto };
+
+            carrinho.CarrinhoDetalhes = listaCarrinho;
+
+            ResponseDto? response = await _carrinhoService.AtualizaCarrinhoAsync(carrinho); // Obtenção de todos os cupões
+
+            if (response != null && response.Sucesso)
+            {
+                TempData["success"] = "Produto adicionado ao carrinho com sucesso";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData["error"] = response?.Mensagem;
+            }
+            return View(produtoDto);
         }
     }
 }
